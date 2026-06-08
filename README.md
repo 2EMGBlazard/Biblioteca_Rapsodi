@@ -1,59 +1,50 @@
-# BibliotecaRapsodi
+# 📚 Rapsodi - Catálogo de Libros y Tienda Digital
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.3.
+Proyecto Final desarrollado para la asignatura **Programación Web 2** del Departamento de Ingeniería de Sistemas. Consiste en una plataforma web que integra un catálogo general de libros, descargas digitales y una simulación interactiva de compra de libros en formato físico con notificaciones en tiempo real al panel de administración.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🚀 Características Principales & Criterios de Evaluación
 
-```bash
-ng serve
-```
+### Funcionalidades Obligatorias
+* **Login y Registro Completo:** Endpoints funcionales con validaciones rigurosas que retornan un JSON Web Token (JWT) tras una autenticación exitosa.
+* **CRUD del Dominio:** Gestión completa (Create, Read, Update, Delete) de la entidad **Libros** persistida en base de datos PostgreSQL.
+* **Integración Front-Back:** Aplicación SPA en Angular consumiendo servicios de la API REST en .NET con inyección automática de tokens mediante interceptores HTTP y protección por Guards.
+* **Calidad de UX/UI:** Interfaz navegable y limpia con controles de mensajes de error comprensibles, diseño adaptativo de portadas con contraste armónico automático y ventanas emergentes fluidas.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### 🌟 Puntos Extra Implementados (Nivel Profesional)
+* **Manejo de Roles Diferenciado (+1.0 Pt):** Rutas, vistas y acciones totalmente separadas para el usuario **Lector** (descarga y compra) y el **Administrador** (gestión de inventario y auditoría de pedidos).
+* **Manejo de Token Expirado y Logout Limpio (+0.5 Pt):** Control centralizado que detecta respuestas de sesión vencida (`401 Unauthorized`) e implementa borrado de almacenamiento local redireccionando inmediatamente al `/login`.
+* **Filtros y Búsqueda en Listados (+0.5 Pt):** Capacidad de filtrado y búsqueda ágil desde la interfaz gráfica del usuario.
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🛠️ Tecnologías Utilizadas
 
-```bash
-ng generate component component-name
-```
+* **Frontend:** Angular (Componentes Standalone, TypeScript, Componentes Reactivos).
+* **Backend:** .NET Core Web API (C#).
+* **Base de Datos:** PostgreSQL.
+* **Seguridad:** Autenticación basada en JWT (Json Web Token).
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
+## 📦 Instrucciones de Instalación y Despliegue
 
-## Building
+### 1. Requisitos Previos
+* Node.js (v18 o superior)
+* .NET SDK (v7.0 o superior)
+* Servidor PostgreSQL activo
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### 2. Configuración del Backend (.NET)
+1. Dirígete a la carpeta del backend.
+2. Abre el archivo `appsettings.json` y configura tu cadena de conexión a la base de datos PostgreSQL junto con tu clave secreta de firma para JWT:
+   ```json
+   {
+     "ConnectionStrings": {
+       "DefaultConnection": "Host=localhost;Database=rapsodi_db;Username=postgres;Password=TU_CONTRASEÑA"
+     },
+     "Jwt": {
+       "Secret": "EstaEsUnaLlaveSuperSecretaYLargaDeMinimo32Caracteres",
+       "DurationInMinutes": 60
+     }
+   }
