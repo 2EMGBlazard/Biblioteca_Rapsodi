@@ -1,0 +1,100 @@
+.biblioteca-container {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 0 15px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.header-seccion { margin-bottom: 25px; }
+.header-seccion h2 { color: #2c3e50; font-size: 24px; margin-bottom: 5px; }
+.header-seccion p { color: #7f8c8d; font-size: 14px; margin: 0; }
+
+/* REJILLA DE TARJETAS PEQUEÑAS EXACTAS */
+.libros-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 25px;
+}
+
+.libro-card {
+  background: white;
+  border: 1px solid #e1e8ed;
+  border-radius: 12px;
+  padding: 16px;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  display: flex;
+  flex-direction: column;
+  height: 440px; /* Tamaño controlado de tarjeta */
+  box-sizing: border-box;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.libro-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+
+.card-badge {
+  position: absolute;
+  top: 12px; right: 12px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: bold;
+  background-color: #e8f8f5;
+  color: #117a65;
+  z-index: 5;
+}
+
+/* PORTADA DE TAMAÑO FIJO COMPACTO */
+.libro-portada-diseno {
+  width: 100%;
+  height: 150px;
+  margin-top: 15px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  box-sizing: border-box;
+  text-align: center;
+  box-shadow: -3px 3px 6px rgba(0,0,0,0.1);
+}
+.portada-titulo { font-size: 12px; margin: 0; font-weight: bold; text-transform: uppercase; }
+.portada-autor { font-size: 10px; margin: 4px 0 0 0; opacity: 0.8; }
+
+.libro-info { margin-top: 12px; flex-grow: 1; }
+.libro-titulo-info { font-size: 15px; color: #2c3e50; margin: 0 0 4px 0; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.libro-autor-info, .libro-isbn-info { font-size: 12px; color: #7f8c8d; margin: 3px 0; }
+.libro-autor-info span, .libro-isbn-info span { color: #34495e; font-weight: 500; }
+
+/* BOTONES APILADOS */
+.card-actions-dobles { display: flex; flex-direction: column; gap: 8px; margin-top: auto; }
+
+.btn-descargar-doble {
+  width: 100%; background-color: #2980b9; color: white; border: none;
+  padding: 9px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px;
+}
+.btn-comprar-doble {
+  width: 100%; background-color: #e67e22; color: white; border: none;
+  padding: 9px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px;
+}
+.btn-descargar-doble:hover { background-color: #1f618d; }
+.btn-comprar-doble:hover { background-color: #d35400; }
+
+/* MODAL / MENÚ EMERGENTE */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center; align-items: center; z-index: 2000; }
+.modal-card { background: white; width: 90%; max-width: 420px; border-radius: 10px; box-shadow: 0 5px 25px rgba(0,0,0,0.2); overflow: hidden; animation: zoomIn 0.2s ease; }
+.modal-header { background-color: #2c3e50; color: white; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; }
+.modal-header h3 { margin: 0; font-size: 16px; }
+.close-x { background: none; border: none; color: white; font-size: 22px; cursor: pointer; }
+.modal-body { padding: 15px; color: #34495e; font-size: 14px; }
+.pasos-compra { display: flex; flex-direction: column; gap: 15px; }
+.paso-titulo { display: block; font-size: 13px; color: #2c3e50; font-weight: bold; border-left: 3px solid #e67e22; padding-left: 6px; margin-bottom: 5px; }
+.qr-container { display: flex; flex-direction: column; align-items: center; background: #f8f9fa; padding: 10px; border-radius: 6px; border: 1px dashed #bdc3c7; }
+.qr-text { font-size: 13px; font-weight: bold; color: #9b59b6; margin-top: 4px; }
+.form-modal-group { margin-top: 8px; }
+.form-modal-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 2px; }
+.form-modal-group input { width: 100%; padding: 7px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+.modal-footer { padding: 10px 15px; background: #f1f3f5; display: flex; justify-content: flex-end; gap: 8px; }
+.btn-cancel-modal { background: #95a5a6; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
+.btn-confirm-modal { background: #27ae60; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+
+@keyframes zoomIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }

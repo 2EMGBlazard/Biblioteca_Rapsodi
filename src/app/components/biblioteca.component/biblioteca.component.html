@@ -1,0 +1,90 @@
+<app-navbar></app-navbar>
+
+<div class="biblioteca-container">
+  <div class="header-seccion">
+    <h2>📚 Catálogo General y Tienda Digital</h2>
+    <p>Descarga la versión digital en PDF o adquiere el libro impreso a domicilio.</p>
+  </div>
+
+  <div class="alert danger" *ngIf="mensajeError">⚠️ {{ mensajeError }}</div>
+
+  <div class="libros-grid">
+    <div class="libro-card" *ngFor="let libro of libros">
+      
+      <div class="card-badge disponible">
+        Formatos Disponibles
+      </div>
+      
+      <div class="libro-portada-diseno" 
+        [ngStyle]="{
+          'background-color': generarColorDestacado(libro.titulo), 
+          'color': obtenerColorContraste(generarColorDestacado(libro.titulo))
+        }">
+        <div class="portada-contenido">
+          <span class="portada-decoracion">📖</span>
+          <h4 class="portada-titulo">{{ libro.titulo }}</h4>
+          <p class="portada-autor">{{ libro.autor }}</p>
+        </div>
+      </div>
+      
+      <div class="libro-info">
+        <h3 class="libro-titulo-info">{{ libro.titulo }}</h3>
+        <p class="libro-autor-info">✍️ Por: <span>{{ libro.autor }}</span></p>
+        <p class="libro-isbn-info">🆔 ISBN: <span>{{ libro.isbn || 'N/A' }}</span></p>
+      </div>
+
+      <div class="card-acciones-dobles">
+        <button class="btn-descargar-doble" (click)="onDescargarPDF(libro)">
+          📥 Descargar PDF
+        </button>
+        
+        <button class="btn-comprar-doble" (click)="onAbrirCompra(libro)">
+          🛒 Comprar en Físico
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="mostrarModal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3>🛒 Adquirir Libro Físico</h3>
+      <button class="close-x" (click)="onCerrarModal()">&times;</button>
+    </div>
+    
+    <div class="modal-body">
+      <p>Estás solicitando el despacho impreso de: <strong style="color: #2c3e50;">{{ libroSeleccionado?.titulo }}</strong></p>
+      
+      <div class="pasos-compra">
+        <div class="paso">
+          <strong class="paso-titulo">Paso 1: Realiza el pago por Nequi</strong>
+          <div class="qr-container">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=Nequi-3136151619" alt="QR Nequi">
+            <span class="qr-text">📱 NEQUI: {{ numeroNequi }}</span>
+          </div>
+        </div>
+
+        <div class="paso">
+          <strong class="paso-titulo">Paso 2: Datos de Envío</strong>
+          
+          <div class="form-modal-group">
+            <label>Dirección de Residencia</label>
+            <input type="text" [(ngModel)]="datosCompra.direccion" placeholder="Ej: Calle 50 #23-45">
+          </div>
+          
+          <div class="form-modal-group">
+            <label>Ciudad</label>
+            <input type="text" [(ngModel)]="datosCompra.ciudad" placeholder="Ej: Manizales">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel-modal" (click)="onCerrarModal()">Cancelar</button>
+      <button class="btn-confirm-modal" (click)="onEnviarComprobante()">🚀 Confirmar Compra</button>
+    </div>
+  </div>
+</div>

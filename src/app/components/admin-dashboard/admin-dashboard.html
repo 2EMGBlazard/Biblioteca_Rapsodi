@@ -1,0 +1,143 @@
+<nav class="admin-nav">
+  <div class="nav-brand">🛡️ Panel de Control - Administrador</div>
+  <div class="nav-actions">
+    <a href="/biblioteca" class="btn-nav-link">📚 Ver Catálogo Lector</a>
+    <a href="/login" class="btn-nav-salir">❌ Salir Panel</a>
+  </div>
+</nav>
+
+<div class="admin-container">
+  
+  <div class="card form-card">
+    <h3>{{ editando ? '📝 Editar Detalles del Libro' : '✨ Registrar Nuevo Libro en Catálogo' }}</h3>
+    
+    <div class="alert success" *ngIf="mensajeExito">✅ {{ mensajeExito }}</div>
+    <div class="alert danger" *ngIf="mensajeError">⚠️ {{ mensajeError }}</div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Título del Libro</label>
+        <input type="text" [(ngModel)]="nuevoLibro.titulo" placeholder="Ej: El Coronel no tiene quien le escriba">
+      </div>
+
+      <div class="form-group">
+        <label>Autor</label>
+        <input type="text" [(ngModel)]="nuevoLibro.autor" placeholder="Ej: Gabriel García Márquez">
+      </div>
+
+      <div class="form-group">
+        <label>Código ISBN</label>
+        <input type="text" [(ngModel)]="nuevoLibro.isbn" placeholder="Ej: 9780307474728">
+      </div>
+
+      <div class="form-group checkbox-group">
+        <label class="switch-label">
+          <input type="checkbox" [(ngModel)]="nuevoLibro.disponible">
+          <span class="slider"></span>
+          <span class="label-text">Disponible para Descarga Digital (PDF)</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-botones">
+      <button class="btn-guardar" (click)="onGuardarLibro()">
+        {{ editando ? 'Actualizar Libro' : 'Guardar en Base de Datos' }}
+      </button>
+      <button class="btn-cancelar" *ngIf="editando" (click)="limpiarFormulario()">
+        Cancelar Edición
+      </button>
+    </div>
+  </div>
+
+  <div class="card inventario-card">
+    <h3>📋 Inventario Actual de Libros (Base de Datos)</h3>
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>ISBN</th>
+            <th>PDF Gratis</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let libro of libros">
+            <td>#{{ libro.id }}</td>
+            <td class="bold">{{ libro.titulo }}</td>
+            <td>{{ libro.autor }}</td>
+            <td><span class="isbn-badge">{{ libro.isbn || 'Sin código' }}</span></td>
+            <td>
+              <span class="badge" [class.disponible]="libro.disponible">
+                {{ libro.disponible ? 'Sí' : 'No (Solo Físico)' }}
+              </span>
+            </td>
+            <td>
+              <div class="acciones-tabla">
+                <button class="btn-editar" (click)="seleccionarParaEditar(libro)">✏️ Editar</button>
+                <button class="btn-eliminar" (click)="onEliminarLibro(libro.id)">🗑️ Eliminar</button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="libros.length === 0">
+            <td colspan="6" style="text-align: center; color: #7f8c8d; padding: 20px;">
+              No hay libros registrados en la base de datos.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card pedidos-card" style="margin-top: 30px;">
+    <h3>🔔 Gestión de Pedidos de Libros Físicos (Notificaciones de Pago)</h3>
+    <p style="color: #7f8c8d; font-size: 14px; margin-top: -5px; margin-bottom: 15px;">
+      Valida las transferencias e inicia los procesos logísticos de entrega.
+    </p>
+
+    <div class="table-responsive">
+      <table>
+        <thead style="background-color: #f4ecf7;">
+          <tr>
+            <th>ID Pedido</th>
+            <th>Usuario Comprador</th>
+            <th>Libro Solicitado</th>
+            <th>Dirección de Destino</th>
+            <th>Referencia Pago</th>
+            <th>Estado</th>
+            <th>Acción de Control</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let pedido of pedidosSimulados">
+            <td>#{{ pedido.id }}</td>
+            <td class="bold">{{ pedido.usuario }}</td>
+            <td>{{ pedido.libro }}</td>
+            <td>{{ pedido.direccion }}</td>
+            <td><span class="isbn-badge" style="color:#8e44ad; background:#f5eeec;">{{ pedido.comprobante }}</span></td>
+            <td>
+              <span class="status-pill" 
+                [style.background-color]="pedido.estado === 'Despachado / Enviado' ? '#d4efdf' : '#fef9e7'"
+                [style.color]="pedido.estado === 'Despachado / Enviado' ? '#196f3d' : '#b7950b'">
+                {{ pedido.estado }}
+              </span>
+            </td>
+            <td>
+              <button 
+                *ngIf="pedido.estado !== 'Despachado / Enviado'"
+                style="background-color:#8e44ad; color:white; border:none; padding: 8px 14px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:12px;"
+                (click)="onDespacharPedido(pedido.id)"
+              >
+                ✓ Confirmar Pago y Despachar
+              </button>
+              <span *ngIf="pedido.estado === 'Despachado / Enviado'" style="color: #27ae60; font-weight: bold;">📦 En camino</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
